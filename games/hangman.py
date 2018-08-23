@@ -1,5 +1,7 @@
 # -*- cording: utf-8 -*-
 import random
+import urllib.request
+from bs4 import BeautifulSoup
 
 def game():
     wrong = 0
@@ -47,4 +49,22 @@ def random_word():
              ]
     return words[random.randrange(len(words))]
 
-game()
+def scrape_word():
+    tango = []
+    url = "https://ejje.weblio.jp/ranking/dictionary/wehgj"
+    html = urllib.request.urlopen(url)
+        # htmlをBeautifulSoupで扱う
+    soup = BeautifulSoup(html,"html.parser")
+        # span要素すべてを摘出する
+    a = soup.find_all("a")
+    for tag in a:
+        try:
+            string_ = tag.get("title").pop(0)
+            if str.isalpha(string_):
+                tango.append(string_)
+        except:
+            # 処理は行わず
+            pass
+    return tango
+
+print(scrape_word())

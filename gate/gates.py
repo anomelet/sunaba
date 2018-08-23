@@ -29,11 +29,3 @@ def DFF(D,T,Q=0,BQ=0):
     BQ = NAND(Q,NAND(NAND(D,T),T))
     return Q,BQ
 
-Q = 0
-BQ = 0
-while 1:
-    S = input("S:")
-    R = input("R:")
-
-    (Q,BQ) = DFF(int(S),int(R),Q,BQ)
-    print(S,R,Q,BQ)
