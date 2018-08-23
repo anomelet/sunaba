@@ -1,11 +1,11 @@
 # -*- cording: utf-8 -*-
 import random
+import re
 import urllib.request
 from bs4 import BeautifulSoup
 
-def game():
+def game(word):
     wrong = 0
-    word = random_word()
     rletters = list(word)
     win = False
     board = ["_"] * len(word)
@@ -50,21 +50,24 @@ def random_word():
     return words[random.randrange(len(words))]
 
 def scrape_word():
+    """ 本日のランキング上位５０から、半角小文字のみの単語をランダムで出力 """
+    lowerReg = re.compile(r'^[a-z]+$') # 正規表現：半角小文字のみ
     tango = []
     url = "https://ejje.weblio.jp/ranking/dictionary/wehgj"
     html = urllib.request.urlopen(url)
         # htmlをBeautifulSoupで扱う
     soup = BeautifulSoup(html,"html.parser")
         # span要素すべてを摘出する
-    a = soup.find_all("a")
+    a = soup.find_all("a",href = re.compile("https://ejje.weblio.jp/content/"))
+
     for tag in a:
         try:
-            string_ = tag.get("title").pop(0)
-            if str.isalpha(string_):
+            string_ = tag.get("title")
+            if lowerReg.match(string_) is not None:
                 tango.append(string_)
         except:
             # 処理は行わず
             pass
-    return tango
+    return tango[random.randrange(len(tango))]
 
-print(scrape_word())
+game(scrape_word())
