@@ -51,6 +51,8 @@ def random_word():
 
 def scrape_word():
     """ 本日のランキング上位５０から、半角小文字のみの単語をランダムで出力 """
+    print("準備中だよ。ちょっと待ってね。")
+    
     lowerReg = re.compile(r'^[a-z]+$') # 正規表現：半角小文字のみ
     tango = []
     url = "https://ejje.weblio.jp/ranking/dictionary/wehgj"
@@ -68,6 +70,14 @@ def scrape_word():
         except:
             # 処理は行わず
             pass
-    return tango[random.randrange(len(tango))]
+    return tango
 
-game(scrape_word())
+def loop_games():
+    tango = scrape_word()
+    while True:
+        inp = input("終わるなら[q]を押してね。それ以外は続行！！ :")
+        if (inp == "q"):
+            return
+        game(tango[random.randrange(len(tango))])
+        
+loop_games()
