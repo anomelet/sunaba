@@ -34,10 +34,11 @@ def game(word):
             print("あなたの勝ち")
             print(" ".join(board))
             win = True
-            break
+            return win
     if not win:
         print("\n".join(stages[0:wrong+1]))
         print("あなたの負け。正解は{}.".format(word))
+        return win
 
 def scrape_word():
     """ 本日のランキング上位５０から、半角小文字のみの単語をランダムで出力 """
@@ -63,11 +64,19 @@ def scrape_word():
     return tango
 
 def loop_games():
+    wins = 0
+    loses = 0
     tango = scrape_word()
     while True:
         inp = input("終わるなら[q]を押してね。それ以外は続行！！ :")
         if (inp == "q"):
-            return
-        game(tango[random.randrange(len(tango))])
+            break
+        if(game(tango[random.randrange(len(tango))])):
+            wins += 1
+        else:
+            loses += 1
+    print("遊んでくれてありがとう！！")
+    print("勝ち：{}　負け：{}".format(wins,loses))
+    return
         
 loop_games()
