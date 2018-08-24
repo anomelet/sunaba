@@ -39,16 +39,6 @@ def game(word):
         print("\n".join(stages[0:wrong+1]))
         print("あなたの負け。正解は{}.".format(word))
 
-def random_word():
-    words = ["cat",
-             "snow",
-             "smile",
-             "dog",
-             "boom",
-             "red"
-             ]
-    return words[random.randrange(len(words))]
-
 def scrape_word():
     """ 本日のランキング上位５０から、半角小文字のみの単語をランダムで出力 """
     print("準備中だよ。ちょっと待ってね。")
